@@ -1,20 +1,30 @@
-<form wire:submit.prevent="submit" id="form">
-    <div class="space-y-12">
-        <div class="pb-6">
+<section>
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Päivitä Etusivun sisältö') }}
+        </h2>
+    </header>
+
+<form wire:submit.prevent="submit" id="form" class="mt-6 space-y-6 grid grid-cols-1 gap-x-6 gap-y-8">
 
 
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8">
-          <div>
-            <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Otsikko</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+    {{-- <div>
+        <x-input-label for="name" :value="__('Nimi')" />
+        <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+        <x-input-error class="mt-2" :messages="$errors->get('name')" />
+    </div> --}}
 
-                <input type="text" id="title" wire:model="title" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
 
-              </div>
 
-            </div>
-          </div>
+
+
+
+
+        <div>
+            <x-input-label for="title" :value="__('Otsikko')" class="mt-1 block w-full" required autofocus autocomplete="title" />
+            <x-text-input wire:model="title" id="title" name="title" type="text" class="mt-1 block w-full" required autofocus autocomplete="title" />
+            <x-input-error class="mt-2" :messages="$errors->get('title')" />
+        </div>
 
           <div class="col-span-full">
             <label for="sub_title" class="block text-sm font-medium leading-6 text-gray-900">Otsikon alateksti</label>
@@ -57,9 +67,9 @@
             </div>
               </div>
           </div>
-        </div>
-    </div>
+
 </form>
+</section>
 
 
 
