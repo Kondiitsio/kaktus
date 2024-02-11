@@ -12,5 +12,5 @@ class Etusivu extends Model
     protected $table = 'etusivu';
 
     // The attributes that are mass assignable.
-    protected $fillable = ['title', 'sub_title'];
+    protected $fillable = ['title', 'subtitle'];
 }

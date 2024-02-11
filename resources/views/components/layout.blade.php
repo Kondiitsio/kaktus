@@ -13,13 +13,13 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-<body class="bg-white">
+<body class="bg-[#FFF5F5]">
     <livewire:components.navigation />
     <div class="flex flex-col h-screen justify-between">
         <div>
             {{ $slot }}
         </div>
-        <footer class="bg-[#65B741] text-white text-center p-3">
+        <footer class="bg-[#1A8B9D] text-[#FFF5F5] text-center p-3">
           <p>Copyright © 2024 Kaktus</p>
         </footer>
       </div>

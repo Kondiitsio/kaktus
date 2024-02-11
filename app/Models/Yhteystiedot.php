@@ -12,5 +12,5 @@ class Yhteystiedot extends Model
     protected $table = 'yhteystiedot';
 
     // The attributes that are mass assignable.
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['stores_title', 'stores_subtitle'];
 }

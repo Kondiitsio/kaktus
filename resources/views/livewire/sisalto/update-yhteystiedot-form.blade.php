@@ -1,245 +1,224 @@
-{{-- <div class="bg-gray-100 p-2 rounded-md flex justify-center items-start">
-    <form wire:submit.prevent="submit">
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" wire:model="title">
-        @error('title') <span class="error">{{ $message }}</span> @enderror
-        <br>
+<section>
+    <header>
+        <h2 class="text-lg font-medium text-gray-900">
+            {{ __('Päivitä Yhteystiedot sivun sisältö') }}
+        </h2>
+    </header>
 
-        <label for="content">Content:</label><br>
-        <textarea id="content" wire:model="content"></textarea>
-        @error('content') <span class="error">{{ $message }}</span> @enderror
-        <br>
+<form wire:submit.prevent="submit" id="form" class="mt-6 space-y-6 grid grid-cols-1 gap-x-6">
+    <div>
+        <x-input-label for="stores_title" :value="__('Myymälät osion otsikko')" class="mt-1 block w-full" autofocus autocomplete="stores_title" />
+        <x-text-input wire:model="stores_title" id="stores_title" name="stores_title" type="text" class="mt-1 block w-full" required autofocus autocomplete="stores_title"
+            x-data="{}"
+            x-init="() => {
+                $refs.input.oninvalid = function(event) {
+                    event.target.setCustomValidity('Laitahan otsikko');
+                }
+                $refs.input.oninput = function(event) {
+                    if(event.target.value == '') {
+                        event.target.setCustomValidity('Laitahan otsikko');
+                    } else {
+                        event.target.setCustomValidity('');
+                    }
+                }
+            }"
+            x-ref="input"
+        />
+        <x-input-error class="mt-2" :messages="$errors->get('stores_title')" />
+    </div>
+    <div>
+        <x-input-label for="stores_subtitle" :value="__('Myymälät osion otsikon alateksti')" class="mt-1 block w-full" autofocus autocomplete="stores_subtitle" />
+        <x-text-input wire:model="stores_subtitle" id="stores_subtitle" name="stores_subtitle" type="text" class="mt-1 block w-full" required autofocus autocomplete="stores_subtitle"
+            x-data="{}"
+            x-init="() => {
+                $refs.input.oninvalid = function(event) {
+                    event.target.setCustomValidity('Laitahan otsikon alateksti');
+                }
+                $refs.input.oninput = function(event) {
+                    if(event.target.value == '') {
+                        event.target.setCustomValidity('Laitahan otsikon alateksti');
+                    } else {
+                        event.target.setCustomValidity('');
+                    }
+                }
+            }"
+            x-ref="input"
+        />
+        <x-input-error class="mt-2" :messages="$errors->get('stores_subtitle')" />
+    </div>
+<!-- Contact information/Store Address blocks -->
 
-        <button type="submit">Update</button>
-    </form>
-</div> --}}
 
 
 
-<form wire:submit.prevent="submit">
-    <div class="space-y-12">
-        <div class="pb-6">
 
 
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-4">
-            <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Otsikko</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-
-                <input type="text" id="title" wire:model="title" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
-
-              </div>
-              @error('title') <span class="error">{{ $message }}</span> @enderror
+    {{-- @foreach ($stores as $index => $store)
+    <div x-data="{ open: false }">
+        <h3 class="cursor-pointer flex items-center" @click="open = !open">
+        <svg x-show="!open" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+        <svg x-show="open" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+        </svg>
+            {{ $store['name'] }}
+        </h3>
+        <div x-show="open">
+            <div class="grid sm:grid-cols-2 gap-x-1">
+            <div>
+        <x-input-label for="city_{{ $index }}" :value="__('Kaupunki')" class="mt-2 block w-full" autofocus autocomplete="city" />
+        <x-text-input wire:model="stores.{{ $index }}.city" id="city_{{ $index }}" name="city_{{ $index }}" type="text" class="mt-1 block w-full" required autofocus autocomplete="city" />
             </div>
-          </div>
-
-          <div class="col-span-full">
-            <label for="content" class="block text-sm font-medium leading-6 text-gray-900">Sisältö</label>
-            <div class="mt-2">
-              <textarea id="content" wire:model="content" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-              @error('content') <span class="error">{{ $message }}</span> @enderror
+            <div>
+        <x-input-label for="street_address_{{ $index }}" :value="__('Katuosoite')" class="mt-2 block w-full" autofocus autocomplete="street_address" />
+        <x-text-input wire:model="stores.{{ $index }}.street_address" id="street_address_{{ $index }}" name="street_address_{{ $index }}" type="text" class="mt-1 block w-full" required autofocus autocomplete="street_address" />
             </div>
-            <div class="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Peruuta</button>
-                <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Tallenna</button>
-              </div>
-          </div>
-
+            <div>
+        <x-input-label for="zip_code_{{ $index }}" :value="__('Postinumero')" class="mt-2 block w-full" autofocus autocomplete="zip_code" />
+        <x-text-input wire:model="stores.{{ $index }}.zip_code" id="zip_code_{{ $index }}" name="zip_code_{{ $index }}" type="text" class="mt-1 block w-full" required autofocus autocomplete="zip_code" />
+            </div>
+            <div>
+        <x-input-label for="email_{{ $index }}" :value="__('Sähköposti')" class="mt-2 block w-full" autofocus autocomplete="email" />
+        <x-text-input wire:model="stores.{{ $index }}.email" id="email_{{ $index }}" name="email_{{ $index }}" type="text" class="mt-1 block w-full" required autofocus autocomplete="email" />
+            </div>
+            <div>
+        <x-input-label for="phone_{{ $index }}" :value="__('Puhelinnumero')" class="mt-2 block w-full" autofocus autocomplete="phone" />
+        <x-text-input wire:model="stores.{{ $index }}.phone" id="phone_{{ $index }}" name="phone_{{ $index }}" type="text" class="mt-1 block w-full" required autofocus autocomplete="phone" />
+            </div>
+            <div>
+        <x-input-label for="open_hours_{{ $index }}" :value="__('Aukioloajat')" class="mt-2 block w-full" autofocus autocomplete="open_hours" />
+        <x-text-input wire:model="stores.{{ $index }}.open_hours" id="open_hours_{{ $index }}" name="open_hours_{{ $index }}" type="text" class="mt-1 block w-full" required autofocus autocomplete="open_hours" />
+            </div>
+            </div>
         </div>
     </div>
+    @endforeach --}}
+
+
+    <div class="flex items-center gap-4">
+        <x-primary-button wire:click="submit">{{ __('Tallenna') }}</x-primary-button>
+
+
+        <div x-data="{ open: false }">
+            <x-secondary-danger-button id="cancel" @click="open = ! open">Peruuta</x-secondary-danger-button>
+            <!-- Semi-transparent background with z-10 -->
+            <div x-show="open" class="fixed inset-0 bg-gray-800 opacity-50 z-10"></div>
+            <!-- Modal content with z-20 -->
+            <div x-show="open" class="fixed z-20 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div class="flex items-center justify-center min-h-[80vh]">
+                    <div @click.outside="open = false" class="bg-[#FFF5F5] p-6 rounded shadow-lg">
+                        <h2 class="text-xl font-bold mb-2">Haluatko varmasti peruuttaa muutokset?</h2>
+                        <x-secondary-danger-button wire:click="confirmActionCancel" @click="open = false; $dispatch('cancelled')">Kyllä</x-secondary-danger-button>
+                        <x-secondary-button @click="open = false">Ei</x-secondary-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <x-action-message class="me-3" on="cancelled">
+            {{ __('Muutokset peruttu') }}
+        </x-action-message>
+
+        <x-action-message class="me-3" on="saved">
+            {{ __('Tallennettu') }}
+        </x-action-message>
+    </div>
+
 </form>
 
 
 
+<div class="sm:flex sm:items-center">
+    <x-dropdown align="right" width="48">
+        <x-slot name="trigger">
+            <x-secondary-button>
+                <div>Muokkaa myymälää</div>
 
-
-
-
-{{-- <form>
-    <div class="space-y-12">
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Profile</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
-
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-4">
-            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>
-                <input type="text" name="username" id="username" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="janesmith">
-              </div>
-            </div>
-          </div>
-
-          <div class="col-span-full">
-            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">About</label>
-            <div class="mt-2">
-              <textarea id="about" name="about" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-            </div>
-            <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
-          </div>
-
-          <div class="col-span-full">
-            <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-            <div class="mt-2 flex items-center gap-x-3">
-              <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
-              </svg>
-              <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
-            </div>
-          </div>
-
-          <div class="col-span-full">
-            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
-            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-              <div class="text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-                </svg>
-                <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                    <span>Upload a file</span>
-                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                  </label>
-                  <p class="pl-1">or drag and drop</p>
+                <div class="ms-1">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
                 </div>
-                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-              </div>
+            </x-secondary-button>
+        </x-slot>
+
+        <x-slot name="content">
+            @foreach ($stores as $store)
+            <x-dropdown-link :href="route('profile')" wire:navigate>
+                {{ $store['name'] }}
+            </x-dropdown-link>
+            @endforeach
+        </x-slot>
+    </x-dropdown>
+</div>
+
+
+<div x-data="{ open: false }">
+    <x-secondary-button class="mt-3" @click="open = true">{{ __('Lisää myymälä') }}</x-secondary-button>
+
+    <div class="fixed z-10 inset-0 overflow-y-auto" x-show="open" x-cloak>
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true" @click="open = false">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div>
-          </div>
+
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <form wire:submit.prevent="createStore">
+                        <x-input-label for="newStore.name" :value="__('Myymälän nimi')" class="mt-2 block w-full" autofocus autocomplete="name" />
+                        <x-text-input type="text" wire:model="newStore.name" />
+                        <div class="grid sm:grid-cols-2 gap-x-1">
+                        <div>
+                        <x-input-label for="newStore.city" :value="__('Kaupunki')" class="mt-2 block w-full" autofocus autocomplete="city" />
+                        <x-text-input wire:model="newStore.city" id="newStore.city" name="newStore.city" type="text" class="mt-1 block w-full" required autofocus autocomplete="city" />
+                        </div>
+                        <div>
+                        <x-input-label for="newStore.street_address" :value="__('Katuosoite')" class="mt-2 block w-full" autofocus autocomplete="street_address" />
+                        <x-text-input wire:model="newStore.street_address" id="newStore.street_address" name="newStore.street_address" type="text" class="mt-1 block w-full" required autofocus autocomplete="street_address" />
+                        </div>
+                        <div>
+                        <x-input-label for="newStore.zip_code" :value="__('Postinumero')" class="mt-2 block w-full" autofocus autocomplete="zip_code" />
+                        <x-text-input wire:model="newStore.zip_code" id="newStore.zip_code" name="newStore.zip_code" type="text" class="mt-1 block w-full" required autofocus autocomplete="zip_code" />
+                        </div>
+                        <div>
+                        <x-input-label for="newStore.email" :value="__('Sähköposti')" class="mt-2 block w-full" autofocus autocomplete="email" />
+                        <x-text-input wire:model="newStore.email" id="newStore.email" name="newStore.email" type="text" class="mt-1 block w-full" required autofocus autocomplete="email" />
+                        </div>
+                        <div>
+                        <x-input-label for="newStore.phone" :value="__('Puhelinnumero')" class="mt-2 block w-full" autofocus autocomplete="phone" />
+                        <x-text-input wire:model="newStore.phone" id="newStore.phone" name="newStore.phone" type="text" class="mt-1 block w-full" required autofocus autocomplete="phone" />
+                        </div>
+                        <div>
+                        <x-input-label for="newStore.open_hours" :value="__('Aukioloajat')" class="mt-2 block w-full" autofocus autocomplete="open_hours" />
+                        <x-text-input wire:model="newStore.open_hours" id="newStore.open_hours" name="newStore.open_hours" type="text" class="mt-1 block w-full" required autofocus autocomplete="open_hours" />
+                        </div>
+                        </div>
+
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                            <x-primary-button class="mt-3" type="submit" @click="open = false">Tallenna</x-primary-button>
+                            <x-secondary-button class="mt-3 ml-2" @click="open = false">Peruuta</x-secondary-button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-            <div class="mt-2">
-              <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-
-          <div class="sm:col-span-3">
-            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-            <div class="mt-2">
-              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-
-          <div class="sm:col-span-4">
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-            <div class="mt-2">
-              <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-
-          <div class="sm:col-span-3">
-            <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-            <div class="mt-2">
-              <select id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                <option>United States</option>
-                <option>Canada</option>
-                <option>Mexico</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-span-full">
-            <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
-            <div class="mt-2">
-              <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-
-          <div class="sm:col-span-2 sm:col-start-1">
-            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
-            <div class="mt-2">
-              <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-
-          <div class="sm:col-span-2">
-            <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
-            <div class="mt-2">
-              <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-
-          <div class="sm:col-span-2">
-            <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal code</label>
-            <div class="mt-2">
-              <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">We'll always let you know about important changes, but you pick what else you want to hear about.</p>
-
-        <div class="mt-10 space-y-10">
-          <fieldset>
-            <legend class="text-sm font-semibold leading-6 text-gray-900">By Email</legend>
-            <div class="mt-6 space-y-6">
-              <div class="relative flex gap-x-3">
-                <div class="flex h-6 items-center">
-                  <input id="comments" name="comments" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                </div>
-                <div class="text-sm leading-6">
-                  <label for="comments" class="font-medium text-gray-900">Comments</label>
-                  <p class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-                </div>
-              </div>
-              <div class="relative flex gap-x-3">
-                <div class="flex h-6 items-center">
-                  <input id="candidates" name="candidates" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                </div>
-                <div class="text-sm leading-6">
-                  <label for="candidates" class="font-medium text-gray-900">Candidates</label>
-                  <p class="text-gray-500">Get notified when a candidate applies for a job.</p>
-                </div>
-              </div>
-              <div class="relative flex gap-x-3">
-                <div class="flex h-6 items-center">
-                  <input id="offers" name="offers" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                </div>
-                <div class="text-sm leading-6">
-                  <label for="offers" class="font-medium text-gray-900">Offers</label>
-                  <p class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-                </div>
-              </div>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="text-sm font-semibold leading-6 text-gray-900">Push Notifications</legend>
-            <p class="mt-1 text-sm leading-6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
-            <div class="mt-6 space-y-6">
-              <div class="flex items-center gap-x-3">
-                <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
-              </div>
-              <div class="flex items-center gap-x-3">
-                <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
-              </div>
-              <div class="flex items-center gap-x-3">
-                <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-      </div>
     </div>
+</div>
 
-    <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-      <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-    </div>
-  </form> --}}
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+

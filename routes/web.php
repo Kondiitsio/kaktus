@@ -28,7 +28,7 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 
-Route::view('/sisalto', 'sisalto')
+Route::redirect('/sisalto', '/sisalto/etusivu', 301)
     ->middleware(['auth', 'verified'])
     ->name('sisalto');
 

@@ -11,13 +11,13 @@ class CreateEtusivuTable extends Migration
         Schema::create('etusivu', function (Blueprint $table) {
             $table->id();
             $table->string('title')->default('Etusivun Otsikko');
-            $table->string('sub_title')->default('Etusivun otsikon alateksti');
+            $table->string('subtitle')->default('Etusivun otsikon alateksti');
             $table->timestamps();
         });
 
         DB::table('etusivu')->insert([
             'title' => 'Etusivun Otsikko',
-            'sub_title' => 'Etusivun otsikon alateksti',
+            'subtitle' => 'Etusivun otsikon alateksti',
         ]);
     }
 
