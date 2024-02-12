@@ -129,29 +129,35 @@
 
 
 
-<div class="sm:flex sm:items-center">
-    <x-dropdown align="right" width="48">
-        <x-slot name="trigger">
-            <x-secondary-button>
-                <div>Muokkaa myymälää</div>
-
-                <div class="ms-1">
-                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </x-secondary-button>
-        </x-slot>
-
-        <x-slot name="content">
+<div class="mt-6">
+    <div class="mt-8 flow-root">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead>
+              <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Myymälän Nimi</th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                  <span class="sr-only">Muokkaa</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
             @foreach ($stores as $store)
-            <x-dropdown-link :href="route('profile')" wire:navigate>
-                {{ $store['name'] }}
-            </x-dropdown-link>
+              <tr>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ $store['name'] }}</td>
+                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Muokkaa<span class="sr-only">, Lindsay Walton</span></a>
+                </td>
+              </tr>
             @endforeach
-        </x-slot>
-    </x-dropdown>
-</div>
+              <!-- More people... -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <div x-data="{ open: false }">

@@ -16,8 +16,8 @@
             </div>
             <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start text-green-500">
                 <div class="flex-shrink-0">
-                    <a href="/"><img class="block lg:hidden h-10 w-auto" src="/img/logos/KAKTUS.svg" alt="Kaktus logo"></a>
-                    <a href="/"><img class="hidden lg:block h-10 w-auto" src="/img/logos/KAKTUS.svg" alt="Kaktus logo"></a>
+                    <a href="/"><img class="block lg:hidden h-10 w-auto" src="/img/logos/Kaktus.svg" alt="Kaktus logo"></a>
+                    <a href="/"><img class="hidden lg:block h-10 w-auto" src="/img/logos/Kaktus.svg" alt="Kaktus logo"></a>
                 </div>
                 <div class="hidden sm:block sm:ml-6">
                     <div class="flex">
