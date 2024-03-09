@@ -9,11 +9,8 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $table = 'stores';
-    protected $fillable = ['name'];
+    protected $table = 'store';
 
-    public function contactInfo()
-    {
-        return $this->hasOne(ContactInfo::class);
-    }
+    // The attributes that are mass assignable.
+    protected $fillable = ['title', 'subtitle'];
 }

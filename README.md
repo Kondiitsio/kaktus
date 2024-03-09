@@ -1,1 +1,5 @@
-Laravel project with livewire and alpine.js
+CMS project, Tall stack.
+-Tailwind
+-Alpine.js
+-Laravel
+-Livewire

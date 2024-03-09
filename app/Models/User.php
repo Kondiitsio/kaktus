@@ -7,9 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Media;
+
 
 class User extends Authenticatable
 {
+
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -42,4 +50,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
 }

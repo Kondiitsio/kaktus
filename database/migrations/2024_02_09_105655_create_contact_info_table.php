@@ -29,7 +29,7 @@ class CreateContactInfoTable extends Migration
                 'street_address' => 'Helsinkikatu 14',
                 'zip_code' => '00100',
                 'email' => 'helsinki@kaktus.fi',
-                'phone' => '+1 (555) 905-2345',
+                'phone' => '+1 555 905 2345',
                 'open_hours' => 'ma-ke 9-17 la 12-18',
             ],
             [
@@ -38,7 +38,7 @@ class CreateContactInfoTable extends Migration
                 'street_address' => 'Espookatu 12',
                 'zip_code' => '01234',
                 'email' => 'espoo@kaktus.fi',
-                'phone' => '+1 (555) 905-3456',
+                'phone' => '+1 555 905 3456',
                 'open_hours' => 'ma-ke 9-17 la 12-18',
             ],
         ]);

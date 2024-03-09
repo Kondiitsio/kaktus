@@ -12,8 +12,8 @@ class ContactInfo extends Model
     protected $table = 'contact_info';
     protected $fillable = ['city', 'street_address', 'zip_code', 'email', 'phone', 'open_hours'];
 
-    public function store()
+    public function stores()
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(Stores::class);
     }
 }

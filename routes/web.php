@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EtusivuController;
-use App\Http\Controllers\YhteystiedotController;
+use App\Http\Controllers\FrontPageController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,34 +15,42 @@ use App\Http\Controllers\YhteystiedotController;
 |
 */
 
-Route::view('/welcome', 'welcome');
+Route::view('/', 'frontPage');
+Route::get('/', [FrontPageController::class, 'index'])
+    ->name('etusivu');
 
-Route::view('/', 'etusivu');
-Route::get('/', [EtusivuController::class, 'index']);
+Route::view('/yhteystiedot', 'contact');
+Route::get('/yhteystiedot', [ContactController::class, 'index']);
 
-Route::view('/yhteystiedot', 'yhteystiedot');
-Route::get('/yhteystiedot', [YhteystiedotController::class, 'index']);
-
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard', '/admin/dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::view('tuotteet', '/admin/products')
+    ->middleware(['auth', 'verified'])
+    ->name('tuotteet');
 
-Route::redirect('/sisalto', '/sisalto/etusivu', 301)
+Route::view('media', '/admin/media')
+    ->middleware(['auth', 'verified'])
+    ->name('media');
+
+
+Route::redirect('/sisalto', '/admin/content/frontPage', 301)
     ->middleware(['auth', 'verified'])
     ->name('sisalto');
 
-Route::view('/sisalto/etusivu', '/sisalto/etusivu')
+Route::view('/sisalto/etusivu', '/admin/content/frontPage')
     ->middleware(['auth', 'verified'])
-    ->name('/sisalto/etusivu');
+    ->name('sisalto.etusivu');
 
-Route::view('/sisalto/yhteystiedot', '/sisalto/yhteystiedot')
+Route::view('/sisalto/yhteystiedot', '/admin/content/contact')
     ->middleware(['auth', 'verified'])
     ->name('/sisalto/yhteystiedot');
 
-Route::view('profile', 'profile')
+Route::view('profile', '/admin/profile')
     ->middleware(['auth'])
     ->name('profile');
+
 
 require __DIR__.'/auth.php';
 ?>
